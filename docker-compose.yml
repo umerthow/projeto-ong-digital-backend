@@ -1,0 +1,11 @@
+db_dev:
+  image: mysql:5.7
+  environment:
+    - MYSQL_ROOT_PASSWORD=plataforma
+    - MYSQL_DATABASE=hapies6
+    - MYSQL_USER=plataforma
+    - MYSQL_PASSWORD=plataforma
+  expose:
+    - '3306'
+  ports:
+    - '3306:3306'
