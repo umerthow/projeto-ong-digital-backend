@@ -1,5 +1,4 @@
-Projeto ONG Digital
-
+# Projeto ONG Digital
 
 ###Requisitos:
 
@@ -8,17 +7,33 @@ Projeto ONG Digital
 
 ###Instalação:
 
-1 - git clone https://github.com/michel-jader/projeto-ong-digital-backend
+1 - Fork do (repositório)[https://github.com/TiagoTi/projeto-ong-digital-backend] e clone do fork
 
 2 - Acesse a pasta raiz do projeto (projeto-ong-digital-backend) e execute o comando:
 	
-	"npm install"
+	```bash
+	npm install
+	```
+3 - Instale o CLI do (sequelize)[http://docs.sequelizejs.com/], executando: 
+	
+	```bash
+	npm install sequelize -g
+	```
+>	Obs: Talvez seja necessário ter privilégios de *root* para instalação da cli.
+
+4 - Após instalação da cli, execute na raiz do projeto:
+	
+	```bash
+	sequelize init
+	```
+
+5 - Na pasta `config`, edite o arquivo `config.json` com as informações do db local.
 
 ###Execução dos testes:
 
-1 - Crie um arquivo chamado .env na raiz da pasta test do projeto. Ficara assim:
+1 - Copie o arquivo .env.exemple na pasta `/test` do projeto com o nome .env apenas. Ficará assim:
 
-	"projeto-ong-digital-backend/test/.env"
+	`projeto-ong-digital-backend/test/.env`
 
 2 - Copie o conteudo do arquivo ".env-development" e cole dentro do arquivo "projeto-ong-digital-backend/test/.env"
 
@@ -34,9 +49,9 @@ Projeto ONG Digital
 
 4 - Acesse a pasta raiz do projeto (projeto-ong-digital-backend) e execute o comando:
 
-	"npm test"
-
-
+	```bash
+	npm test
+	```
 
 ###Execução da aplicação em desenvolvimento:
 
@@ -45,7 +60,9 @@ Projeto ONG Digital
 
 2 - Acesse a pasta raiz do projeto (projeto-ong-digital-backend) e execute o comando:
 
-	"npm run start"
+	```bash
+	npm run start
+	```
 
 
 
