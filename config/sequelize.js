@@ -46,7 +46,7 @@ module.exports = {
   }
 };
 
-function env(envvar) {
+function env (envvar) {
   if (envvar) {
     return process.env[envvar];
   }
