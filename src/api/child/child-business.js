@@ -32,14 +32,15 @@ export default class ChildBusiness extends BaseBusiness {
 
   create (options) {
     const obj = options.payload;
-    obj.codsituacao = obj.status.id;
+    obj.situation = obj.status.id;
+    obj.codUser = obj.user.id;
     delete obj.status;
 
     return this._dao.create(obj)
     .then(child => {
-      return this._childSituationBusiness.byId(obj.codsituacao)
-        .then(status => {
-          child.dataValues.status = status;
+      return this._childSituationBusiness.byId(null, obj.situation)
+        .then(situation => {
+          child.dataValues.childSituation = situation.dataValues;
           return this.buildResponse(child);
         });
     });
@@ -99,8 +100,13 @@ export default class ChildBusiness extends BaseBusiness {
 
     _.forEach(entity, function (item) {
       let child = item.dataValues || item;
+      let situation = item.dataValues.childSituation.dataValues || item.childSituation || item.dataValues.childSituation;
+
       delete child.codsituacao;
       delete child.situation;
+      delete item.dataValues.childSituation;
+
+      child.childSituation = situation;
       children.push(child);
     });
 

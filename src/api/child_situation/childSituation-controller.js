@@ -26,10 +26,7 @@ export default class ChildSituationController extends BaseController {
     return this._business.findAll(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.OK))
-      .catch((error) => {
-        console.log(error);
-        super.error(reply);
-      });
+      .catch(super.error(reply));
   }
 
   create (request, reply) {

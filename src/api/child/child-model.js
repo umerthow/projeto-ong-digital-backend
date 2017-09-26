@@ -93,12 +93,12 @@ export default function (sequelize, DataTypes) {
         child.belongsTo(models.childSituation, {
           foreignKey: 'codsituacao'
         });
-        /* child.belongsTo(models.user, {
+        child.belongsTo(models.user, {
           foreignKey: 'codUser'
-        }); */
+        });
       }
     },
-    tableName: 'child',
+    tableName: 'crianca',
     freezeTableName: true,
     timestamps: false
   });

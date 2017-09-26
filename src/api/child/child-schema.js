@@ -23,16 +23,10 @@ export function list () {
 export function create () {
   return {
     payload: Joi.object().keys({
-      titulo: Joi
+      name: Joi
         .string()
         .min(1)
         .max(100)
-        .trim()
-        .required(),
-      descricao: Joi
-        .string()
-        .min(1)
-        .max(2000)
         .trim()
         .required(),
       status: Joi
@@ -73,7 +67,7 @@ export function create () {
         .required(),
       exitDate: Joi
         .date(),
-      codUser: Joi
+      user: Joi
         .object().keys({
           id: Joi
             .number()
@@ -95,19 +89,51 @@ export function update () {
         .required()
     }),
     payload: Joi.object().keys({
-      titulo: Joi
+      name: Joi
         .string()
         .min(1)
         .max(100)
         .trim()
         .required(),
-      name: Joi
+      status: Joi
+        .object().keys({
+          id: Joi
+            .number()
+            .integer()
+            .min(1)
+            .example(1)
+            .required()
+        }),
+      rg: Joi
         .string()
-        .min(1)
-        .max(200)
-        .trim()
         .required(),
-      situation: Joi
+      cpf: Joi
+        .string()
+        .required(),
+      color: Joi
+        .string()
+        .required(),
+      sex: Joi
+        .string()
+        .required(),
+      birth: Joi
+        .date()
+        .required(),
+      school: Joi
+        .string()
+        .required(),
+      responsibleCpf: Joi
+        .string(),
+      responsibleName: Joi
+        .string(),
+      responsiblePhone: Joi
+        .string(),
+      entryDate: Joi
+        .date()
+        .required(),
+      exitDate: Joi
+        .date(),
+      user: Joi
         .object().keys({
           id: Joi
             .number()

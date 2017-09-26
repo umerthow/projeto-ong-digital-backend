@@ -51,7 +51,10 @@ export default class ChildController extends BaseController {
     return this._business.update(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.OK))
-      .catch(super.error(reply));
+      .catch((error) => {
+        console.log(error);
+        super.error(reply);
+      });
   }
 
   remove (request, reply) {

@@ -28,9 +28,8 @@ export default class ChildSituationBusiness extends BaseBusiness {
     return this._dao.create(obj);
   }
 
-  byId (options) {
-    let id = options.params.id;
-    return this._dao.byId(id, options)
+  byId (options, id) {
+    return this._dao.byId(id || options.params.id, options)
       .then(super.notFound('Child Situation'));
   }
 

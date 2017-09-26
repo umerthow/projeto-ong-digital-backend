@@ -40,7 +40,7 @@ exports.register = (server, options, next) => {
     path: '/children/{id}',
     handler: controller.update,
     config: {
-      description: 'Update children by ID',
+      description: 'Update children by ID2',
       tags: ['api'],
       validate: Validator.update()
     }
