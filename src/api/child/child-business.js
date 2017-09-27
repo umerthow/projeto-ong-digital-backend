@@ -68,10 +68,7 @@ export default class ChildBusiness extends BaseBusiness {
           includes: [{
             model: models.childSituation
           }]
-        })
-          .then(val => {
-            return this.buildResponse(val);
-          });
+        });
       });
   }
 
