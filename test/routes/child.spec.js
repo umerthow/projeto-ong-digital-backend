@@ -450,6 +450,46 @@ describe('Routes /children', () => {
           done();
         });
       });
+      it('return 200 HTTP status code when all data is correct', (done) => {
+        let options = {
+          method: 'PUT',
+          url: config.routesPath + '/children/1',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          },
+          payload: {
+            name: 'string',
+            status: {
+              id: 1
+            },
+            rg: 'string',
+            cpf: 'string',
+            color: 'string',
+            sex: 'string',
+            birth: '2017-09-27',
+            school: 'string',
+            responsibleCpf: 'string',
+            responsibleName: 'string',
+            responsiblePhone: 'string',
+            entryDate: '2017-09-27',
+            exitDate: '2017-09-27',
+            user: {
+              id: 1
+            }
+          }
+        };
+        server.inject(options, (response) => {
+          let body = response.result;
+          expect(response).to.have.property('statusCode', 200);
+          should.exist(body);
+          expect(body).to.be.jsonSchema(jsonSchemaSuccess);
+          expect(body.records).to.have.length.least(1);
+          expect(body.meta.recordCount).to.have.least(1);
+          expect(body.records[0]).to.have.property('id');
+          expect(body.records[0]).to.have.property('name', 'string');
+          done();
+        });
+      });
     });
   });
 });
