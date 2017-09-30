@@ -2,7 +2,7 @@
 
 import Joi from 'joi';
 
-export function list () {
+export function list() {
   return {
     query: Joi.object({
       offset: Joi
@@ -14,28 +14,55 @@ export function list () {
         .number()
         .integer()
         .min(1)
-        .default(50)
         .max(50)
+        .default(50)
     })
   };
 }
 
-export function create () {
+export function create() {
   return {
     payload: Joi.object().keys({
       name: Joi
         .string()
         .min(3)
-        .max(500)
+        .max(200)
         .trim()
         .required(),
-      active: Joi
-        .boolean()
+      user: Joi
+        .string()
+        .min(3)
+        .max(200)
+        .trim()
+        .required(),
+      pass: Joi
+        .string()
+        .min(3)
+        .max(200)
+        .trim()
+        .required(),
+      func: Joi
+        .string()
+        .min(3)
+        .max(200)
+        .trim(),
+      privilegy: Joi
+        .string()
+        .min(1)
+        .max(20)
+        .trim()
+        .required(),
+      status: Joi
+        .string()
+        .min(1)
+        .max(200)
+        .trim()
+        .required()
     }).required().meta({ className: ' User' })
-  };
+  }
 }
 
-export function read () {
+export function read() {
   return {
     params: Joi.object({
       id: Joi
@@ -43,10 +70,10 @@ export function read () {
         .min(1)
         .required()
     })
-  };
+  }
 }
 
-export function update () {
+export function update() {
   return {
     params: Joi.object({
       id: Joi
@@ -64,10 +91,10 @@ export function update () {
       active: Joi
         .boolean()
     }).required().meta({ className: ' User' })
-  };
+  }
 }
 
-export function remove () {
+export function remove() {
   return {
     params: Joi.object({
       id: Joi
@@ -75,5 +102,5 @@ export function remove () {
         .min(1)
         .required()
     })
-  };
+  }
 }

@@ -94,7 +94,7 @@ export default function (sequelize, DataTypes) {
           foreignKey: 'codsituacao'
         });
         child.belongsTo(models.user, {
-          foreignKey: 'codUser'
+          foreignKey: 'coduser'
         });
       }
     },
