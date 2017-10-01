@@ -38,14 +38,14 @@ const plugins = [
     options: {
       config: Config,
       tags: {
-        'hapies6-reference-project': 'Reference API'
+        'projeto-ong-digital': 'Reference API'
       },
       info: {
-        title: 'hapies6-reference-project',
-        description: 'Powered by node, hapi, joi, hapi-swaggered, hapi-swaggered-ui and swagger-ui',
+        title: 'Projeto ONG Digital',
+        description: '',
         version: '1.0.0'
       },
-      title: 'hapies6-reference-project'
+      title: 'Projeto ONG Digital'
     }
   },
   {

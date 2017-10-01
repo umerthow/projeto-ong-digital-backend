@@ -1,17 +1,18 @@
 {
-  "name": "hapies6-projeto-referencia",
+  "name": "projeto-ong-digital-backend",
   "version": "1.0.1",
   "engines": {
     "node": "8.0.0"
   },
-  "description": "Projeto Hapi Referencia API",
+  "description": "Projeto ONG Digital feito com NodeJS",
   "main": "index.js",
   "scripts": {
     "test": "scripts/test",
     "coverage": "scripts/coverage",
     "start": "scripts/server",
     "migrate": "scripts/migration",
-    "linter": "./node_modules/semistandard/bin/cmd.js --fix"
+    "linter": "./node_modules/semistandard/bin/cmd.js --fix",
+    "watch": "nodemon --watch ./src index.js"
   },
   "author": "",
   "license": "ISC",
