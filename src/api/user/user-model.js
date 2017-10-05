@@ -42,13 +42,11 @@ export default function (Sequelize, DataTypes) {
     },
     entryDate: {
       field: 'dt_inclusao',
-      type: DataTypes.DATE,
-      allowNull: false
+      type: DataTypes.DATE
     },
     updatedAt: {
       field: 'dt_ult_alteracao',
       type: DataTypes.DATE(3),
-      allowNull: false,
       defaultValue: Sequelize.NOW
     }
   }, {

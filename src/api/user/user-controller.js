@@ -3,6 +3,7 @@
 import BaseController from '../../commons/base-controller';
 import HTTPStatus from 'http-status';
 import Business from './user-business';
+import sha256 from 'crypto-js/sha256'
 import _ from 'lodash';
 
 export default class UserController extends BaseController {
@@ -30,15 +31,21 @@ export default class UserController extends BaseController {
   }
 
   create (request, reply) {
+    request.payload.pass = sha256(request.payload.pass).toString();
     let options = {
       headers: _.cloneDeep(request.headers),
       payload: _.cloneDeep(request.payload)
     };
 
+    console.log(options);
+
     return this._business.create(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.CREATED))
-      .catch(super.error(reply));
+      .catch((err) => {
+        console.log(err);
+        super.error(reply)
+      });
   }
 
   read (request, reply) {

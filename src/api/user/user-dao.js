@@ -8,6 +8,7 @@ const user = models.user;
 export default class UserDao {
   findAll (options) {
     return user.findAll({
+      attributes: ['id', 'name', 'user', 'func', 'privilegy', 'status', 'entryDate', 'updatedAt'],
       where: options.where,
       offset: options.paging.offset,
       limit: options.paging.limit

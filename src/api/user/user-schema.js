@@ -57,6 +57,12 @@ export function create() {
         .min(1)
         .max(200)
         .trim()
+        .required(),
+      entryDate: Joi
+        .string()
+        .min(1)
+        .max(200)
+        .trim()
         .required()
     }).required().meta({ className: ' User' })
   }
