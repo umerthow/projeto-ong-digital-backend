@@ -6,6 +6,10 @@ const models = sequelize().models;
 const user = models.user;
 
 export default class UserDao {
+  findUser (where) {
+    return user.findAll({ where });
+  }
+
   findAll (options) {
     return user.findAll({
       attributes: ['id', 'name', 'user', 'func', 'privilegy', 'status', 'entryDate', 'updatedAt'],

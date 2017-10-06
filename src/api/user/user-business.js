@@ -9,6 +9,11 @@ export default class UserBusiness extends BaseBusiness {
     this._dao = new UserDao();
   }
 
+  findUser (where) {
+    return this._dao.findUser(where)
+      .then(super.notFound('User'));
+  }
+
   findAll (options) {
     let where = options.where || {};
 

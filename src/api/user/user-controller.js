@@ -63,14 +63,34 @@ export default class UserController extends BaseController {
       payload: _.cloneDeep(request.payload)
     };
 
+    let updateRecord = (options) => {
+      return this._business.update(options)
+        .then(this.buildResponse())
+        .then((response) => reply.success(response, options).code(HTTPStatus.OK))
+        .catch(super.error(reply));
+    }
+
     if (request.payload.pass) {
       options.payload.pass = sha256(request.payload.pass).toString();
     }
 
-    return this._business.update(options)
-      .then(this.buildResponse())
-      .then((response) => reply.success(response, options).code(HTTPStatus.OK))
-      .catch(super.error(reply));
+    if (request.payload.user) {
+      let user = request.payload.user;
+
+      this._business.findUser({ user })
+        .then((rows) => {
+          if (rows.length >= 1) {
+            return reply(HTTPStatus[409]).code(HTTPStatus.CONFLICT);
+          } else {
+            updateRecord(options);
+          }
+        })
+        .catch((err) => {
+          updateRecord(options);
+        });
+    } else {
+      updateRecord(options);
+    }
   }
 
   remove (request, reply) {
