@@ -63,6 +63,10 @@ export default class UserController extends BaseController {
       payload: _.cloneDeep(request.payload)
     };
 
+    if (request.payload.pass) {
+      options.payload.pass = sha256(request.payload.pass).toString();
+    }
+
     return this._business.update(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.OK))
@@ -77,6 +81,9 @@ export default class UserController extends BaseController {
 
     return this._business.delete(options)
       .then((response) => reply.success(response, options).code(HTTPStatus.NO_CONTENT))
-      .catch(super.error(reply));
+      .catch((err) => {
+        console.log(err);
+        super.error(reply)
+      });
   }
 }

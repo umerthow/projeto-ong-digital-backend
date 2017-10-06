@@ -91,11 +91,33 @@ export function update() {
       name: Joi
         .string()
         .min(3)
-        .max(500)
+        .max(200)
+        .trim(),
+      user: Joi
+        .string()
+        .min(3)
+        .max(200)
+        .trim(),
+      pass: Joi
+        .string()
+        .min(3)
+        .max(200)
+        .trim(),
+      func: Joi
+        .string()
+        .min(3)
+        .max(200)
+        .trim(),
+      privilegy: Joi
+        .string()
+        .min(1)
+        .max(20)
+        .trim(),
+      status: Joi
+        .string()
+        .min(1)
+        .max(200)
         .trim()
-        .required(),
-      active: Joi
-        .boolean()
     }).required().meta({ className: ' User' })
   }
 }
@@ -105,7 +127,7 @@ export function remove() {
     params: Joi.object({
       id: Joi
         .number()
-        .min(1)
+        .integer()
         .required()
     })
   }
