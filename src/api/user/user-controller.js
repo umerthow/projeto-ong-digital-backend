@@ -32,20 +32,16 @@ export default class UserController extends BaseController {
 
   create (request, reply) {
     request.payload.pass = sha256(request.payload.pass).toString();
+    
     let options = {
       headers: _.cloneDeep(request.headers),
       payload: _.cloneDeep(request.payload)
     };
 
-    console.log(options);
-
     return this._business.create(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.CREATED))
-      .catch((err) => {
-        console.log(err);
-        super.error(reply)
-      });
+      .catch(super.error(reply));
   }
 
   read (request, reply) {
