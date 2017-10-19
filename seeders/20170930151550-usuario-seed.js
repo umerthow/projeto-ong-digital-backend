@@ -13,7 +13,7 @@ module.exports = {
         status: 'Indefinido',
         dt_inclusao: '2017-09-30'
       },
-      { 
+      {
         coduser: 2,
         nome: 'Morty',
         login: 'morty@c_137.com',

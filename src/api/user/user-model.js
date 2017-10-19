@@ -1,10 +1,9 @@
 'use strict';
 
 export default function (Sequelize, DataTypes) {
-  
   const User = Sequelize.define('user', {
     id: {
-      field: "coduser",
+      field: 'coduser',
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,

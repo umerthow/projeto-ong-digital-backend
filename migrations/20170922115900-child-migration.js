@@ -84,8 +84,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          key: 'id',
-          model: 'user'
+          key: 'coduser',
+          model: 'usuario'
         }
       }
     });

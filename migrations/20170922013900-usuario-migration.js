@@ -2,9 +2,9 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('usuario', { 
+    return queryInterface.createTable('usuario', {
       id: {
-        field: "coduser",
+        field: 'coduser',
         type: Sequelize.INTEGER(11),
         allowNull: false,
         primaryKey: true,
@@ -49,7 +49,7 @@ module.exports = {
         field: 'dt_ult_alteracao',
         type: Sequelize.DATE(3),
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)'),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)')
       }
     });
   },
