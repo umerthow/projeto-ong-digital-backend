@@ -31,17 +31,32 @@ export default class UserController extends BaseController {
   }
 
   create (request, reply) {
-    request.payload.pass = sha256(request.payload.pass).toString();
+    let { user, pass } = request.payload;
+    request.payload.pass = sha256(pass).toString();
 
     let options = {
       headers: _.cloneDeep(request.headers),
       payload: _.cloneDeep(request.payload)
     };
-
-    return this._business.create(options)
-      .then(this.buildResponse())
-      .then((response) => reply.success(response, options).code(HTTPStatus.CREATED))
-      .catch(super.error(reply));
+    
+    let createRecord = (options) => {
+      return this._business.create(options)
+        .then(this.buildResponse())
+        .then((response) => reply.success(response, options).code(HTTPStatus.CREATED))
+        .catch(super.error(reply));
+    };
+    
+    this._business.findUser({ user })
+      .then((rows) => {
+        if (rows.length >= 1) {
+          return reply(HTTPStatus[409]).code(HTTPStatus.CONFLICT);
+        } else {
+          createRecord(options);
+        }
+      })
+      .catch((err) => {
+        createRecord(options);
+      });
   }
 
   read (request, reply) {
