@@ -2,9 +2,12 @@
 
 import BaseController from '../../commons/base-controller';
 import HTTPStatus from 'http-status';
+import Sequelize from 'sequelize';
 import Business from './user-business';
 import sha256 from 'crypto-js/sha256';
 import _ from 'lodash';
+
+const Op = Sequelize.Op;
 
 export default class UserController extends BaseController {
   constructor () {
@@ -54,7 +57,7 @@ export default class UserController extends BaseController {
           createRecord(options);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         createRecord(options);
       });
   }
@@ -78,34 +81,65 @@ export default class UserController extends BaseController {
       payload: _.cloneDeep(request.payload)
     };
 
+    let verifyUser = (options) => {
+      return new Promise((resolve) => {
+        let id = request.params.id;
+        
+        return this._business.findUser({ id })
+          .then((rows) => {
+            if (rows.length >= 1) {
+              resolve(true);
+            } else {
+              reslve(false);
+            }
+          })
+          .catch((err) => {
+            resolve(false);
+          });  
+      });
+    }
+    
     let updateRecord = (options) => {
       return this._business.update(options)
         .then(this.buildResponse())
         .then((response) => reply.success(response, options).code(HTTPStatus.OK))
         .catch(super.error(reply));
     };
+    
+    verifyUser(options)
+      .then((exists) => {
+        if (!exists) {
+          return reply(HTTPStatus[404]).code(HTTPStatus.NOT_FOUND);
+        } else {
+          if (request.payload.pass) {
+            options.payload.pass = sha256(request.payload.pass).toString();
+          }
 
-    if (request.payload.pass) {
-      options.payload.pass = sha256(request.payload.pass).toString();
-    }
+          if (request.payload.user) {
+            let user = request.payload.user;
+            let id = request.params.id;
 
-    if (request.payload.user) {
-      let user = request.payload.user;
-
-      this._business.findUser({ user })
-        .then((rows) => {
-          if (rows.length >= 1) {
-            return reply(HTTPStatus[409]).code(HTTPStatus.CONFLICT);
+            this._business.findUser({ 
+              user,
+              id: {
+                [Op.ne]: id
+              }
+            })
+              .then((rows) => {
+                if (rows.length >= 1) {
+                  return reply(HTTPStatus[409]).code(HTTPStatus.CONFLICT);
+                } else {
+                  updateRecord(options);
+                }
+              })
+              .catch((err) => {
+                updateRecord(options);
+              });
           } else {
             updateRecord(options);
           }
-        })
-        .catch((err) => {
-          updateRecord(options);
-        });
-    } else {
-      updateRecord(options);
-    }
+        }
+      });
   }
 
   remove (request, reply) {
