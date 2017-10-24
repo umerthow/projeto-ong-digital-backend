@@ -16,6 +16,16 @@ export default class ChildBusiness extends BaseBusiness {
 
   findAll (options) {
     const where = {};
+    if (options.query.cpf) {
+      where.cpf = options.query.cpf;
+    }
+    if (options.query.nome) {
+      where.nome = options.query.nome;
+    }
+    if (options.query['status.id']) {
+      where.codsituacao = options.query['status.id'];
+    }
+
     return this._dao.findAll({
       paging: {
         limit: options.query.limit,

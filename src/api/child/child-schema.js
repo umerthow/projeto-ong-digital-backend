@@ -15,7 +15,17 @@ export function list () {
         .integer()
         .min(1)
         .default(50)
-        .max(50)
+        .max(50),
+      cpf: Joi
+        .string()
+        .example('12345678909'),
+      nome: Joi
+        .string()
+        .example('Joao Jose da Silva'),
+      'status.id': Joi
+        .number()
+        .integer()
+        .example(1)
     })
   };
 }
