@@ -2,12 +2,9 @@
 
 import BaseController from '../../commons/base-controller';
 import HTTPStatus from 'http-status';
-import Sequelize from 'sequelize';
 import Business from './user-business';
 import sha256 from 'crypto-js/sha256';
 import _ from 'lodash';
-
-const Op = Sequelize.Op;
 
 export default class UserController extends BaseController {
   constructor () {
@@ -122,7 +119,7 @@ export default class UserController extends BaseController {
             this._business.findUser({ 
               user,
               id: {
-                [Op.ne]: id
+                $ne: id
               }
             })
               .then((rows) => {
