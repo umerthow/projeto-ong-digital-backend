@@ -12,7 +12,8 @@
     "start": "scripts/server",
     "migrate": "scripts/migration",
     "linter": "./node_modules/semistandard/bin/cmd.js --fix",
-    "watch": "nodemon --watch ./src index.js"
+    "watch": "nodemon --watch ./src index.js",
+    "teste": "cross-env NODE_ENV=test ./node_modules/.bin/lab -c -S -T ./node_modules/lab-babel -l -t 94 -v"
   },
   "author": "",
   "license": "ISC",
@@ -36,7 +37,7 @@
     "mysql2": "^1.4.2",
     "raven": "2.1.2",
     "semistandard": "11.0.0",
-    "sequelize": "4.13.5",
+    "sequelize": "3.30.4",
     "sequelize-cli": "2.7.0",
     "uuid": "3.1.0",
     "vision": "4.1.1"
