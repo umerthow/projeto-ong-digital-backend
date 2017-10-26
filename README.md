@@ -5,17 +5,17 @@
 - NodeJS >= v7.10.0
 - MySQL >= 5.7
 
-# #Instalação:
+## Instalação:
 
-1 - Fork do (repositório)[https://github.com/TiagoTi/projeto-ong-digital-backend] e clone do fork
+1 - Fork do [repositório](https://github.com/TiagoTi/projeto-ong-digital-backend) e clone do fork.
 
-2 - Acesse a pasta raiz do projeto (projeto-ong-digital-backend) e execute o comando:
+2 - Acesse a pasta raiz do projeto `"projeto-ong-digital-backend"` e execute o comando:
 
 ```bash
 npm install
 ```
 
-3 - Instale o CLI do (sequelize)[http://docs.sequelizejs.com/], executando: 
+3 - Instale a CLI do [sequelize](http://docs.sequelizejs.com/), executando: 
 	
 ```bash
 npm install sequelize -g
@@ -36,6 +36,11 @@ sequelize init
 1 - Copie o arquivo .env.exemple na pasta `/test` do projeto com o nome .env apenas. Ficará assim:
 
 	`projeto-ong-digital-backend/test/.env`
+
+  - 1.1 - Faça o mesmo com o `.env-development.exemple`,
+  deverá ficar assim:
+
+    `projeto-ong-digital-backend/.env-development`
 
 2 - Copie o conteudo do arquivo ".env-development" e cole dentro do arquivo "projeto-ong-digital-backend/test/.env"
 

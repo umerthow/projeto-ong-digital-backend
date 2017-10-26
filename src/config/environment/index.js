@@ -30,7 +30,7 @@ let all = {
   routesBaseDir: Path.normalize(Path.join(__dirname, '/../../api')),
 
   // Configure routes basePath
-  routesPath: '/v1/hapies6referencia',
+  routesPath: '/v1',
 
   routesTimeout: process.env.ROUTES_TIMEOUT ? Number(process.env.ROUTES_TIMEOUT) : 1000,
 

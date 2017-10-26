@@ -9,14 +9,20 @@ export default class UserBusiness extends BaseBusiness {
     this._dao = new UserDao();
   }
 
+  findUser (where) {
+    return this._dao.findUser(where)
+      .then(super.notFound('User'));
+  }
+
   findAll (options) {
-    let where = {};
+    let where = options.where || {};
+
     return this._dao.findAll({
       paging: {
         limit: options.query.limit,
         offset: options.query.offset
       },
-      where: where
+      where
     })
       .then(super.notFound('Users'))
       .then(result => result);
@@ -54,7 +60,7 @@ export default class UserBusiness extends BaseBusiness {
   delete (options) {
     let id = options.params.id;
     return this._dao.byId(id)
-      .then(super.notFound('User'))
-      .then(() => this._dao.delete(id, options));
+      .then(this._dao.delete(id, options))
+      .catch(super.notFound('User'));
   }
 }

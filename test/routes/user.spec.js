@@ -89,10 +89,10 @@ describe('Routes /users', () => {
           expect(response).to.have.property('statusCode', 200);
           should.exist(body);
           expect(body).to.be.jsonSchema(jsonSchemaSuccess);
-          expect(body.records).to.have.length.least(5);
-          expect(body.meta.recordCount).to.have.least(5);
+          expect(body.records).to.have.length.least(2);
+          expect(body.meta.recordCount).to.have.least(2);
           expect(body.records[0]).to.have.property('id', 1);
-          expect(body.records[0]).to.have.property('name', 'Darth Vader');
+          expect(body.records[0]).to.have.property('name', 'Rick');
           done();
         });
       });
@@ -112,13 +112,11 @@ describe('Routes /users', () => {
           expect(body).to.be.jsonSchema(jsonSchemaSuccess);
           expect(body.records).to.have.length.least(2);
           expect(body.meta.recordCount).to.have.least(2);
-          expect(body.records[0]).to.have.property('id', 3);
-          expect(body.records[0]).to.have.property('name', 'Mick Jagger');
           done();
         });
       });
 
-      it('return 200 HTTP status code with limit', (done) => {
+      it('return 200 HTTP status code and 2 results only with limit equal a 2', (done) => {
         let options = {
           method: 'GET',
           url: config.routesPath + '/users?limit=2',
@@ -133,8 +131,6 @@ describe('Routes /users', () => {
           expect(body).to.be.jsonSchema(jsonSchemaSuccess);
           expect(body.records).to.have.length.least(2);
           expect(body.meta.recordCount).to.have.least(2);
-          expect(body.records[0]).to.have.property('id', 1);
-          expect(body.records[0]).to.have.property('name', 'Darth Vader');
           done();
         });
       });
@@ -154,8 +150,6 @@ describe('Routes /users', () => {
           expect(body).to.be.jsonSchema(jsonSchemaSuccess);
           expect(body.records).to.have.length.least(1);
           expect(body.meta.recordCount).to.have.least(1);
-          expect(body.records[0]).to.have.property('id', 3);
-          expect(body.records[0]).to.have.property('name', 'Mick Jagger');
           done();
         });
       });
@@ -300,7 +294,7 @@ describe('Routes /users', () => {
           expect(body.records).to.have.length.least(1);
           expect(body.meta.recordCount).to.have.least(1);
           expect(body.records[0]).to.have.property('id', 1);
-          expect(body.records[0]).to.have.property('name', 'Darth Vader');
+          expect(body.records[0]).to.have.property('name', 'Rick');
           done();
         });
       });
@@ -398,7 +392,14 @@ describe('Routes /users', () => {
           headers: {
             'Authorization': 'Bearer ' + token
           },
-          payload: {}
+          payload: {
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
+          }
         };
         server.inject(options, (response) => {
           let body = response.result;
@@ -420,7 +421,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: ''
+            name: '',
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
         server.inject(options, (response) => {
@@ -443,7 +450,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: 0
+            name: 0,
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
         server.inject(options, (response) => {
@@ -466,7 +479,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: 'Robson dos Teclados'
+            name: 'Robson dos Teclados',
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
         server.inject(options, (response) => {
@@ -555,7 +574,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: ''
+            name: '',
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
         server.inject(options, (response) => {
@@ -578,7 +603,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: 0
+            name: 0,
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
         server.inject(options, (response) => {
@@ -601,7 +632,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: 'name Test'
+            name: 'name Test',
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
 
@@ -625,7 +662,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: 'name Test'
+            name: 'name Test',
+            user: 'blabla@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
 
@@ -649,7 +692,13 @@ describe('Routes /users', () => {
             'Authorization': 'Bearer ' + token
           },
           payload: {
-            name: 'Naruto'
+            name: 'Naruto',
+            user: 'naruto@bla.com',
+            pass: 'abracadabra',
+            func: 'tester',
+            privilegy: 'adm',
+            status: 'undefined',
+            entryDate: '2017-10-05T16:03:56.000Z'
           }
         };
         server.inject(options, (response) => {
@@ -733,7 +782,7 @@ describe('Routes /users', () => {
       it('return 204 HTTP status code when record is deleted', (done) => {
         let options = {
           method: 'DELETE',
-          url: config.routesPath + '/users/3',
+          url: config.routesPath + '/users/2',
           headers: {
             'Authorization': 'Bearer ' + token
           }
