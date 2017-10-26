@@ -71,5 +71,12 @@ npm test
 npm run start
 ```
 
+> Para o windows, será necessário rodar as migrations e seeder através da [cli do sequelize](https://github.com/sequelize/cli), e após, executar o projeto com:
+	
+	```bash
+	node index // Para execução da API
+	npm run watch // Execução da API com watch nos arquivos (recomendado em desenvolvimento)
+	```
+
 
 
