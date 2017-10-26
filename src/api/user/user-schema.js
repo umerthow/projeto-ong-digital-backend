@@ -63,7 +63,6 @@ export function create () {
         .min(1)
         .max(200)
         .trim()
-        .required()
     }).required().meta({ className: ' User' })
   };
 }

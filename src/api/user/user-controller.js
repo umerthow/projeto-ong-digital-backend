@@ -31,8 +31,10 @@ export default class UserController extends BaseController {
   }
 
   create (request, reply) {
-    let { user, pass } = request.payload;
+    let { user, pass, entryDate } = request.payload;
+    
     request.payload.pass = sha256(pass).toString();
+    request.payload.entryDate = (!entryDate) ? new Date() : entryDate;
 
     let options = {
       headers: _.cloneDeep(request.headers),

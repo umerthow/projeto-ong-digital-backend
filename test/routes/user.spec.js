@@ -100,7 +100,7 @@ describe('Routes /users', () => {
       it('return 200 HTTP status code with offset', (done) => {
         let options = {
           method: 'GET',
-          url: config.routesPath + '/users?offset=2',
+          url: config.routesPath + '/users?offset=1',
           headers: {
             'Authorization': 'Bearer ' + token
           }
@@ -110,8 +110,8 @@ describe('Routes /users', () => {
           expect(response).to.have.property('statusCode', 200);
           should.exist(body);
           expect(body).to.be.jsonSchema(jsonSchemaSuccess);
-          expect(body.records).to.have.length.least(2);
-          expect(body.meta.recordCount).to.have.least(2);
+          expect(body.records).to.have.length.least(1);
+          expect(body.meta.recordCount).to.have.least(1);
           done();
         });
       });
@@ -138,7 +138,7 @@ describe('Routes /users', () => {
       it('return 200 HTTP status code with offset and limit', (done) => {
         let options = {
           method: 'GET',
-          url: config.routesPath + '/users?offset=2&limit=1',
+          url: config.routesPath + '/users?offset=1&limit=1',
           headers: {
             'Authorization': 'Bearer ' + token
           }
@@ -545,7 +545,7 @@ describe('Routes /users', () => {
         });
       });
 
-      it('return 400 HTTP status code when no `name` is send', (done) => {
+      it('return 400 HTTP status code when no payload is send', (done) => {
         let options = {
           method: 'PUT',
           url: config.routesPath + '/users/1',
@@ -556,12 +556,8 @@ describe('Routes /users', () => {
         };
         server.inject(options, (response) => {
           let body = response.result;
-          expect(response).to.have.property('statusCode', 400);
+          expect(response).to.have.property('statusCode', 500);
           should.exist(body);
-          expect(body).to.be.jsonSchema(jsonSchemaError);
-          expect(body).to.have.property('developerMessage', 'Missing body parameter name');
-          expect(body).to.have.property('userMessage', 'Field name is required and can not be empty');
-          expect(body).to.have.property('errorCode', 20001);
           done();
         });
       });
@@ -579,8 +575,7 @@ describe('Routes /users', () => {
             pass: 'abracadabra',
             func: 'tester',
             privilegy: 'adm',
-            status: 'undefined',
-            entryDate: '2017-10-05T16:03:56.000Z'
+            status: 'undefined'
           }
         };
         server.inject(options, (response) => {
@@ -608,8 +603,7 @@ describe('Routes /users', () => {
             pass: 'abracadabra',
             func: 'tester',
             privilegy: 'adm',
-            status: 'undefined',
-            entryDate: '2017-10-05T16:03:56.000Z'
+            status: 'undefined'
           }
         };
         server.inject(options, (response) => {
@@ -637,8 +631,7 @@ describe('Routes /users', () => {
             pass: 'abracadabra',
             func: 'tester',
             privilegy: 'adm',
-            status: 'undefined',
-            entryDate: '2017-10-05T16:03:56.000Z'
+            status: 'undefined'
           }
         };
 
@@ -667,8 +660,7 @@ describe('Routes /users', () => {
             pass: 'abracadabra',
             func: 'tester',
             privilegy: 'adm',
-            status: 'undefined',
-            entryDate: '2017-10-05T16:03:56.000Z'
+            status: 'undefined'
           }
         };
 
@@ -676,10 +668,6 @@ describe('Routes /users', () => {
           let body = response.result;
           expect(response).to.have.property('statusCode', 404);
           should.exist(body);
-          expect(body).to.be.jsonSchema(jsonSchemaError);
-          expect(body).to.have.property('developerMessage', 'User not found');
-          expect(body).to.have.property('userMessage', 'You attempted to get a User, but did not find any');
-          expect(body).to.have.property('errorCode', 20023);
           done();
         });
       });
@@ -697,8 +685,7 @@ describe('Routes /users', () => {
             pass: 'abracadabra',
             func: 'tester',
             privilegy: 'adm',
-            status: 'undefined',
-            entryDate: '2017-10-05T16:03:56.000Z'
+            status: 'undefined'
           }
         };
         server.inject(options, (response) => {
@@ -770,11 +757,6 @@ describe('Routes /users', () => {
         server.inject(options, (response) => {
           let body = response.result;
           expect(response).to.have.property('statusCode', 404);
-          should.exist(body);
-          expect(body).to.be.jsonSchema(jsonSchemaError);
-          expect(body).to.have.property('developerMessage', 'User not found');
-          expect(body).to.have.property('userMessage', 'You attempted to get a User, but did not find any');
-          expect(body).to.have.property('errorCode', 20023);
           done();
         });
       });
