@@ -782,7 +782,7 @@ describe('Routes /users', () => {
       it('return 204 HTTP status code when record is deleted', (done) => {
         let options = {
           method: 'DELETE',
-          url: config.routesPath + '/users/2',
+          url: config.routesPath + '/users/1',
           headers: {
             'Authorization': 'Bearer ' + token
           }

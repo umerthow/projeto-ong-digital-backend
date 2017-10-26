@@ -144,12 +144,45 @@ export default class UserController extends BaseController {
       headers: _.cloneDeep(request.headers),
       params: _.cloneDeep(request.params)
     };
-
-    return this._business.delete(options)
-      .then((response) => reply.success(response, options).code(HTTPStatus.NO_CONTENT))
+    
+    let verifyUser = (options) => {
+      return new Promise((resolve) => {
+        let id = request.params.id;
+        
+        return this._business.findUser({ id })
+          .then((rows) => {
+            if (rows.length >= 1) {
+              resolve(true);
+            } else {
+              reslve(false);
+            }
+          })
+          .catch((err) => {
+            resolve(false);
+          });  
+      });
+    }
+    
+    let deleteUser = (options) => {
+      return this._business.delete(options)
+        .then((response) => reply.success(response, options).code(HTTPStatus.NO_CONTENT))
+        .catch((err) => {
+          console.log(err);
+          super.error(reply);
+        });
+    }
+    
+    verifyUser(options)
+      .then((exists) => {
+        if (!exists) {
+          return reply(HTTPStatus[404]).code(HTTPStatus.NOT_FOUND);
+        } else {
+          deleteUser(options);
+        }
+      })
       .catch((err) => {
+        console.log('Error at verifyUser');
         console.log(err);
-        super.error(reply);
       });
   }
 }
