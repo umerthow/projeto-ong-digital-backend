@@ -144,7 +144,8 @@ export default class UserController extends BaseController {
   remove (request, reply) {
     let options = {
       headers: _.cloneDeep(request.headers),
-      params: _.cloneDeep(request.params)
+      params: _.cloneDeep(request.params),
+      force: true
     };
     
     let verifyUser = (options) => {
@@ -183,7 +184,7 @@ export default class UserController extends BaseController {
         }
       })
       .catch((err) => {
-        console.log('Error at verifyUser');
+        console.log('Erro ao excluir');
         console.log(err);
       });
   }

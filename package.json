@@ -13,7 +13,8 @@
     "migrate": "scripts/migration",
     "linter": "./node_modules/semistandard/bin/cmd.js --fix",
     "watch": "nodemon --watch ./src index.js",
-    "teste": "cross-env NODE_ENV=test ./node_modules/.bin/lab -c -S -T ./node_modules/lab-babel -l -t 94 -v"
+    "teste": "cross-env NODE_ENV=test ./node_modules/.bin/lab -c -S -T ./node_modules/lab-babel -l -t 94 -v",
+    "seed": "sequelize db:seed:all"
   },
   "author": "",
   "license": "ISC",
