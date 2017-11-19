@@ -168,9 +168,10 @@ export default class UserController extends BaseController {
     
     let deleteUser = (options) => {
       return this._business.delete(options)
-        .then((response) => reply.success(response, options).code(HTTPStatus.NO_CONTENT))
+        .then((response) => {
+          return reply().code(HTTPStatus.NO_CONTENT);
+        })
         .catch((err) => {
-          console.log(err);
           super.error(reply);
         });
     }
@@ -182,10 +183,6 @@ export default class UserController extends BaseController {
         } else {
           deleteUser(options);
         }
-      })
-      .catch((err) => {
-        console.log('Erro ao excluir');
-        console.log(err);
       });
   }
 }
