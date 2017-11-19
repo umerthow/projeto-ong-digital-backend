@@ -2,8 +2,7 @@
 
 import BaseController from '../../commons/base-controller';
 import HTTPStatus from 'http-status';
-import Business from './user-business';
-import sha256 from 'crypto-js/sha256'
+import Business from './docs-business';
 import _ from 'lodash';
 
 export default class UserController extends BaseController {
@@ -31,8 +30,6 @@ export default class UserController extends BaseController {
   }
 
   create (request, reply) {
-    request.payload.pass = sha256(request.payload.pass).toString();
-    
     let options = {
       headers: _.cloneDeep(request.headers),
       payload: _.cloneDeep(request.payload)
@@ -63,10 +60,6 @@ export default class UserController extends BaseController {
       payload: _.cloneDeep(request.payload)
     };
 
-    if (request.payload.pass) {
-      options.payload.pass = sha256(request.payload.pass).toString();
-    }
-
     return this._business.update(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.OK))
@@ -76,14 +69,12 @@ export default class UserController extends BaseController {
   remove (request, reply) {
     let options = {
       headers: _.cloneDeep(request.headers),
-      params: _.cloneDeep(request.params),
-      force: true
+      params: _.cloneDeep(request.params)
     };
 
     return this._business.delete(options)
       .then((response) => reply.success(response, options).code(HTTPStatus.NO_CONTENT))
       .catch((err) => {
-        console.log('Erro ao excluir');
         console.log(err);
         super.error(reply)
       });
