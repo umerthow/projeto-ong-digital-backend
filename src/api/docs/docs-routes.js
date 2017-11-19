@@ -24,7 +24,12 @@ exports.register = (server, options, next) => {
     config: {
       description: 'Create doc',
       tags: ['api'],
-      validate: Validator.create()
+      validate: Validator.create(),
+      payload: {
+        output: 'stream',
+        allow: 'multipart/form-data',
+        parse: true
+      }
     }
   }, {
     method: 'GET',

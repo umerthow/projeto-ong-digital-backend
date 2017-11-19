@@ -3,9 +3,10 @@
 import BaseController from '../../commons/base-controller';
 import HTTPStatus from 'http-status';
 import Business from './docs-business';
+import Gapi from './gapi';
 import _ from 'lodash';
 
-export default class UserController extends BaseController {
+export default class DocsController extends BaseController {
   constructor () {
     super();
     this._business = new Business();
@@ -35,10 +36,18 @@ export default class UserController extends BaseController {
       payload: _.cloneDeep(request.payload)
     };
 
+    console.log('executando');
+
+    gapi();
+
+    return reply('Olha o console tiu!');
+
+    /*
     return this._business.create(options)
       .then(this.buildResponse())
       .then((response) => reply.success(response, options).code(HTTPStatus.CREATED))
       .catch(super.error(reply));
+    */
   }
 
   read (request, reply) {

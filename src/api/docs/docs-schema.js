@@ -36,16 +36,17 @@ export function create() {
         .trim()
         .required(),
       file: Joi
+        .object()
         .required(),
-      user: Joi
+      usuario: Joi
         .number()
-        .integer()
+        .integer(11)
         .required(),
-      child: Joi
+      crianca: Joi
         .number()
-        .integer()
-        .required(),
-    }).required().meta({ className: ' User' })
+        .integer(11)
+        .required()
+    }).required().meta({ className: 'Docs' })
   }
 }
 
@@ -54,6 +55,7 @@ export function read() {
     params: Joi.object({
       id: Joi
         .number()
+        .integer(11)
         .min(1)
         .required()
     })
@@ -99,7 +101,7 @@ export function update() {
         .min(1)
         .max(200)
         .trim()
-    }).required().meta({ className: ' User' })
+    }).required().meta({ className: 'Docs' })
   }
 }
 
