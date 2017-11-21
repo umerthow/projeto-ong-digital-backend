@@ -610,6 +610,13 @@ const errorCatalog = {
       userMessage: 'Invalid field {1} - it must be filled with a valid URI'
     }
   },
+  '20090': {
+    httpcode: 400,
+    en: {
+      developerMessage: 'Invalid payload data - it must be an image',
+      userMessage: 'Invalid field {0} - it must be filled with a valid URI'
+    }
+  },
   '30001': {
     httpcode: 401,
     en: {

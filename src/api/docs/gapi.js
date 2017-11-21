@@ -3,24 +3,22 @@ import readline from 'readline';
 import google from 'googleapis';
 import googleAuth from 'google-auth-library';
 
-// If modifying these scopes, delete your previously saved credentials
-// at ~/.credentials/drive-nodejs-quickstart.json
-const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
-const TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/';
-const TOKEN_PATH = TOKEN_DIR + 'drive-nodejs-quickstart.json';
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const TOKEN_DIR = process.cwd() + '/.credentials/';
+const TOKEN_PATH = TOKEN_DIR + 'drive-token.json';
 
 // Load client secrets from a local file.
-export default function() {
-  console.log('CALLED');
-  fs.readFile('client_secret.json', function processClientSecrets(err, content) {
-    if (err) {
-      console.log('Error loading client secret file: ' + err);
-      return;
-    }
-    // Authorize a client with the loaded credentials, then call the
-    // Drive API.
-    authorize(JSON.parse(content), listFiles);
+export function gapi() {
+  return new Promise((resolve, reject) => {
+    fs.readFile('client_secret.json', function processClientSecrets(err, content) {
+      if (err) {
+        console.log('Error loading client secret file: ' + err);
+        reject(err);
+      }
+      // Authorize a client with the loaded credentials, then call the
+      // Drive API.
+      authorize(JSON.parse(content), resolve);
+    });
   });
 }
 

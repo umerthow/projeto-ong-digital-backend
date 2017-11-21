@@ -23,13 +23,7 @@ exports.register = (server, options, next) => {
     handler: controller.create,
     config: {
       description: 'Create doc',
-      tags: ['api'],
-      validate: Validator.create(),
-      payload: {
-        output: 'stream',
-        allow: 'multipart/form-data',
-        parse: true
-      }
+      tags: ['api']
     }
   }, {
     method: 'GET',

@@ -3,8 +3,11 @@
 import BaseController from '../../commons/base-controller';
 import HTTPStatus from 'http-status';
 import Business from './docs-business';
-import Gapi from './gapi';
+import FileType from 'file-type';
+import google from 'googleapis';
+import { gapi } from './gapi';
 import _ from 'lodash';
+import fs from 'fs';
 
 export default class DocsController extends BaseController {
   constructor () {
@@ -31,16 +34,46 @@ export default class DocsController extends BaseController {
   }
 
   create (request, reply) {
-    let options = {
+    const data = request.payload;
+    const allowed = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'];
+
+    const file = {
+      data: data.file,
+      info: FileType(data.file) || { mime: false }
+    };
+
+    const options = {
       headers: _.cloneDeep(request.headers),
       payload: _.cloneDeep(request.payload)
     };
 
-    console.log('executando');
+    if (allowed.includes(file.info.mime)) {
 
-    gapi();
+      gapi()
+        .then((auth) => {
+          const drive = google.drive({ version: 'v2', auth: auth });
 
-    return reply('Olha o console tiu!');
+          drive.files.insert({
+            resource: {
+              title: data.name,
+              mimeType: file.info.mime
+            },
+            media: {
+              mimeType: file.info.mime,
+              body: file.data
+            }
+          }, (err, res) => {
+            return reply(res).code(200);
+          });
+
+        })
+        .catch((err) => {
+          return reply('Error at authentication: ', err).code(500);
+        });
+
+    } else {
+      return super.error(reply)({ errorCode: '20090', parameters: 'file' });
+    }
 
     /*
     return this._business.create(options)

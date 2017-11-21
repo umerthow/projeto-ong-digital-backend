@@ -36,8 +36,7 @@ export function create() {
         .trim()
         .required(),
       file: Joi
-        .object()
-        .required(),
+        .binary(),
       usuario: Joi
         .number()
         .integer(11)
