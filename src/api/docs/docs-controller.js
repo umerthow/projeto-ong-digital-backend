@@ -63,20 +63,28 @@ export default class DocsController extends BaseController {
               body: file.data
             }
           }, (err, res) => {
-            console.log(res.id);
-
             this._business.create({
               name: data.name,
               tags: data.tags,
               fileid: res.id,
-              user: data.usuario,
+              user: 0,
               child: data.crianca
             })
               .then(this.buildResponse())
-              .then((res) => reply.success(res, options).code(HTTPStatus.CREATED))
-              .catch(super.error(reply));
+              .then((r) => reply.success(r, options).code(HTTPStatus.CREATED))
+              .catch((err) => {
 
-            // return reply(res).code(200);
+                drive.files.delete({
+                  fileId: res.id
+                }, (e, r, b) => {
+                  if (!e && b.statusCode == 204) {
+                    return super.error(reply)(err);
+                  }
+
+                  return super.error(reply)({ errorCode: '20092', parameters: res.id });
+                });
+
+              });
           });
 
         })

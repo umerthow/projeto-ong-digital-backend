@@ -624,6 +624,13 @@ const errorCatalog = {
       userMessage: 'Error at try to connect an external service. Try again later.'
     }
   },
+  '20092': {
+    httpcode: 401,
+    en: {
+      developerMessage: 'Google API Error - Error when try to remove unsaved file from cloud. (fileId: {0})',
+      userMessage: 'Error at try to save file and at try to remove unsavedd file from cloud. Try again later.'
+    }
+  },
   '30001': {
     httpcode: 401,
     en: {
