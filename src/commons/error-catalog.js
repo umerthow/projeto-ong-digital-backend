@@ -617,6 +617,13 @@ const errorCatalog = {
       userMessage: 'Invalid field {0} - it must be filled with a valid URI'
     }
   },
+  '20091': {
+    httpcode: 401,
+    en: {
+      developerMessage: 'Google API Error - {0}',
+      userMessage: 'Error at try to connect an external service. Try again later.'
+    }
+  },
   '30001': {
     httpcode: 401,
     en: {

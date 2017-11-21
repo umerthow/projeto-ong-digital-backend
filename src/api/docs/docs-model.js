@@ -1,10 +1,10 @@
 'use strict';
 
 export default function (Sequelize, DataTypes) {
-  
-  const User = Sequelize.define('user', {
+
+  const User = Sequelize.define('docs', {
     id: {
-      field: "coduser",
+      field: "coddocumento",
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
@@ -15,34 +15,46 @@ export default function (Sequelize, DataTypes) {
       type: DataTypes.STRING(200),
       allowNull: false
     },
+    tags: {
+      field: 'tags',
+      type: DataTypes.STRING(200),
+      allowNull: false
+    },
+    fileid: {
+      field: 'fileid',
+      type: DataTypes.STRING(200),
+      allowNull: false
+    },
     user: {
-      field: 'login',
-      type: DataTypes.STRING(200),
-      allowNull: false
+      field: 'coduser',
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        key: 'coduser',
+        model: 'usuario'
+      }
     },
-    pass: {
-      field: 'senha',
-      type: DataTypes.STRING(200),
-      allowNull: false
+    child: {
+      field: 'codcrianca',
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        key: 'codcrianca',
+        model: 'crianca'
+      }
     },
-    func: {
-      field: 'funcao',
-      type: DataTypes.STRING(200),
-      allowNull: true
-    },
-    privilegy: {
-      field: 'tipo_user',
-      type: DataTypes.STRING(20),
-      allowNull: false
-    },
-    status: {
-      field: 'status',
-      type: DataTypes.STRING(200),
-      allowNull: false
+    child: {
+      field: 'codcrianca',
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        key: 'codcrianca',
+        model: 'crianca'
+      }
     },
     entryDate: {
       field: 'dt_inclusao',
-      type: DataTypes.DATE
+      type: DataTypes.DATE(3)
     },
     updatedAt: {
       field: 'dt_ult_alteracao',
@@ -50,7 +62,7 @@ export default function (Sequelize, DataTypes) {
       defaultValue: Sequelize.NOW
     }
   }, {
-    tableName: 'usuario',
+    tableName: 'documentos',
     freezeTableName: true,
     timestamps: false
   });

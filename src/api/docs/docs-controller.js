@@ -63,12 +63,25 @@ export default class DocsController extends BaseController {
               body: file.data
             }
           }, (err, res) => {
-            return reply(res).code(200);
+            console.log(res.id);
+
+            this._business.create({
+              name: data.name,
+              tags: data.tags,
+              fileid: res.id,
+              user: data.usuario,
+              child: data.crianca
+            })
+              .then(this.buildResponse())
+              .then((res) => reply.success(res, options).code(HTTPStatus.CREATED))
+              .catch(super.error(reply));
+
+            // return reply(res).code(200);
           });
 
         })
         .catch((err) => {
-          return reply('Error at authentication: ', err).code(500);
+          return super.error(reply)({ errorCode: '20091', parameters: err });
         });
 
     } else {

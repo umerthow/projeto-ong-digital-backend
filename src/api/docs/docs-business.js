@@ -23,10 +23,8 @@ export default class UserBusiness extends BaseBusiness {
       .then(result => result);
   }
 
-  create (options) {
-    let obj = options.payload;
-
-    return this._dao.create(obj);
+  create (payload) {
+    return this._dao.create(payload);
   }
 
   byId (options) {

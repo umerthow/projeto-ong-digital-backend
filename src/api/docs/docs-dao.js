@@ -3,12 +3,11 @@
 import { sequelize } from '../../config/database';
 
 const models = sequelize().models;
-const user = models.user;
+const user = models.docs;
 
 export default class UserDao {
   findAll (options) {
     return user.findAll({
-      attributes: ['id', 'name', 'user', 'func', 'privilegy', 'status', 'entryDate', 'updatedAt'],
       where: options.where,
       offset: options.paging.offset,
       limit: options.paging.limit
