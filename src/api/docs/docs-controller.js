@@ -67,7 +67,7 @@ export default class DocsController extends BaseController {
               name: data.name,
               tags: data.tags,
               fileid: res.id,
-              user: 0,
+              user: data.usuario,
               child: data.crianca
             })
               .then(this.buildResponse())
