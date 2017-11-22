@@ -30,7 +30,6 @@ export default class UserDao {
 
   byId (id, options) {
     return user.findOne({
-      attributes: ['id', 'name', 'user', 'func', 'privilegy', 'status', 'entryDate', 'updatedAt'],
       where: {
         id: id
       }

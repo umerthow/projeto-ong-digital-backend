@@ -95,13 +95,6 @@ export default class DocsController extends BaseController {
     } else {
       return super.error(reply)({ errorCode: '20090', parameters: 'file' });
     }
-
-    /*
-    return this._business.create(options)
-      .then(this.buildResponse())
-      .then((response) => reply.success(response, options).code(HTTPStatus.CREATED))
-      .catch(super.error(reply));
-    */
   }
 
   read (request, reply) {
@@ -135,11 +128,51 @@ export default class DocsController extends BaseController {
       params: _.cloneDeep(request.params)
     };
 
-    return this._business.delete(options)
-      .then((response) => reply.success(response, options).code(HTTPStatus.NO_CONTENT))
-      .catch((err) => {
-        console.log(err);
-        super.error(reply)
+    let verifyDoc = (options) => {
+      return new Promise((resolve) => {
+        this._business.byId(options)
+          .then((qr) => {
+            const data = qr.dataValues;
+
+            if (data) {
+              resolve(data);
+            } else {
+              resolve(false);
+            }
+          })
+          .catch((err) => {
+            resolve(false);
+          });
+      });
+    }
+
+    let deleteDoc = (options, data) => {
+
+      gapi().then((auth) => {
+        const drive = google.drive({ version: 'v2', auth: auth });
+
+        drive.files.delete({
+          fileId: data.fileid
+        }, (err, res, body) => {
+          if (!err && body.statusCode == 204) {
+            return this._business.delete(options)
+              .then(() => reply().code(HTTPStatus.NO_CONTENT))
+              .catch(super.error(reply));
+          } else {
+            super.error(reply)({ errorCode: '20093', parameters: err || body.statusCode })
+          }
+        });
+      });
+
+    };
+
+    verifyDoc(options)
+      .then((data) => {
+        if (!data) {
+          return reply(HTTPStatus[404]).code(HTTPStatus.NOT_FOUND);
+        } else {
+          deleteDoc(options, data);
+        }
       });
   }
 }
