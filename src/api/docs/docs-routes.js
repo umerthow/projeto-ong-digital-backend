@@ -35,6 +35,15 @@ exports.register = (server, options, next) => {
       validate: Validator.read()
     }
   }, {
+    method: 'GET',
+    path: '/docs/{id}/file',
+    handler: controller.readFile,
+    config: {
+      description: 'Get file of document by ID',
+      tags: ['api'],
+      validate: Validator.read()
+    }
+  }, {
     method: 'PUT',
     path: '/docs/{id}',
     handler: controller.update,

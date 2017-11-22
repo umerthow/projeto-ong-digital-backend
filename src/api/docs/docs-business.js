@@ -1,12 +1,12 @@
 'use strict';
 
 import BaseBusiness from '../../commons/base-business';
-import UserDao from './docs-dao';
+import DocsDao from './docs-dao';
 
-export default class UserBusiness extends BaseBusiness {
+export default class DocsBusiness extends BaseBusiness {
   constructor () {
     super();
-    this._dao = new UserDao();
+    this._dao = new DocsDao();
   }
 
   findAll (options) {
@@ -19,7 +19,7 @@ export default class UserBusiness extends BaseBusiness {
       },
       where
     })
-      .then(super.notFound('Users'))
+      .then(super.notFound('Docs'))
       .then(result => result);
   }
 
@@ -30,7 +30,7 @@ export default class UserBusiness extends BaseBusiness {
   byId (options) {
     let id = options.params.id;
     return this._dao.byId(id, options)
-      .then(super.notFound('User'));
+      .then(super.notFound('Docs'));
   }
 
   update (options) {
@@ -38,7 +38,7 @@ export default class UserBusiness extends BaseBusiness {
     let obj = options.payload;
 
     return this._dao.byId(id)
-      .then(super.notFound('User'))
+      .then(super.notFound('Docs'))
       .then(() => {
         return this._dao.update({
           model: obj,
@@ -54,6 +54,6 @@ export default class UserBusiness extends BaseBusiness {
     let id = options.params.id;
     return this._dao.byId(id)
       .then(this._dao.delete(id, options))
-      .catch(super.notFound('User'));
+      .catch(super.notFound('Docs'));
   }
 }

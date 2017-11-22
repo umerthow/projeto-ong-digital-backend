@@ -109,6 +109,36 @@ export default class DocsController extends BaseController {
       .catch(super.error(reply));
   }
 
+  readFile (request, reply) {
+    let options = {
+      headers: _.cloneDeep(request.headers),
+      params: _.cloneDeep(request.params)
+    };
+
+    return this._business.byId(options)
+      .then((qr) => {
+        const data = qr.dataValues;
+
+        gapi()
+          .then((auth) => {
+            const drive = google.drive({ version: 'v2', auth: auth });
+
+            drive.files.get({
+              fileId: data.fileid,
+              alt: 'media'
+            }, {
+              encoding: null
+            }, (err, res, body) => {
+              return reply(res)
+                .type(body.headers['content-type'])
+                .encoding('binary')
+                .code(HTTPStatus.OK)
+            })
+          });
+      })
+      .catch(super.error(reply));
+  }
+
   update (request, reply) {
     let options = {
       headers: _.cloneDeep(request.headers),
