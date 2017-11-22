@@ -610,6 +610,34 @@ const errorCatalog = {
       userMessage: 'Invalid field {1} - it must be filled with a valid URI'
     }
   },
+  '20090': {
+    httpcode: 400,
+    en: {
+      developerMessage: 'Invalid payload data - it must be an image',
+      userMessage: 'Invalid field {0} - it must be filled with a valid URI'
+    }
+  },
+  '20091': {
+    httpcode: 401,
+    en: {
+      developerMessage: 'Google API Error - {0}',
+      userMessage: 'Error at try to connect an external service. Try again later.'
+    }
+  },
+  '20092': {
+    httpcode: 401,
+    en: {
+      developerMessage: 'Google API Error - Error when try to remove unsaved file from cloud. (fileId: {0})',
+      userMessage: 'Error at try to save file and at try to remove unsavedd file from cloud. Try again later.'
+    }
+  },
+  '20093': {
+    httpcode: 401,
+    en: {
+      developerMessage: 'Google API Error at try to delete file - {0}',
+      userMessage: 'Error in external service. Try again later.'
+    }
+  },
   '30001': {
     httpcode: 401,
     en: {

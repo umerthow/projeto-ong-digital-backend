@@ -63,3 +63,6 @@ typings/
 
 # Sequelize config
 config/config.json
+
+# Google credentials
+.credentials/
