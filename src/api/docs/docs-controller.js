@@ -34,6 +34,7 @@ export default class DocsController extends BaseController {
   }
 
   create (request, reply) {
+    let drive = null;
     const data = request.payload;
     const allowed = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'];
 
@@ -47,51 +48,68 @@ export default class DocsController extends BaseController {
       payload: _.cloneDeep(request.payload)
     };
 
-    if (allowed.includes(file.info.mime)) {
-
-      gapi()
-        .then((auth) => {
-          const drive = google.drive({ version: 'v2', auth: auth });
-
-          drive.files.insert({
-            resource: {
-              title: data.name,
-              mimeType: file.info.mime
-            },
-            media: {
-              mimeType: file.info.mime,
-              body: file.data
-            }
-          }, (err, res) => {
-            this._business.create({
-              name: data.name,
-              tags: data.tags,
-              fileid: res.id,
-              user: data.usuario,
-              child: data.crianca
-            })
-              .then(this.buildResponse())
-              .then((r) => reply.success(r, options).code(HTTPStatus.CREATED))
-              .catch((err) => {
-
-                drive.files.delete({
-                  fileId: res.id
-                }, (e, r, b) => {
-                  if (!e && b.statusCode == 204) {
-                    return super.error(reply)(err);
-                  }
-
-                  return super.error(reply)({ errorCode: '20092', parameters: res.id });
-                });
-
-              });
-          });
-
-        })
-        .catch((err) => {
-          return super.error(reply)({ errorCode: '20091', parameters: err });
+    let uploadFile = (drive, data, file) => {
+      return new Promise((resolve) => {
+        drive.files.insert({
+          resource: {
+            title: data.name,
+            mimeType: file.info.mime
+          },
+          media: {
+            mimeType: file.info.mime,
+            body: file.data
+          }
+        }, (err, res) => {
+          if (!err) {
+            resolve(res);
+          } else {
+            reject({ errorCode: '20091', parameters: err });
+          }
         });
+      });
+    };
 
+    let newDocument = async function(data, file, cb) {
+      try {
+        const auth = await gapi();
+        drive = google.drive({ version: 'v2', auth: auth });
+
+        let uploadedFile = await uploadFile(drive, data, file);
+
+        cb(null, uploadedFile);
+      } catch (err) {
+        cb(err);
+      }
+    };
+
+    if (allowed.includes(file.info.mime)) {
+      newDocument(data, file, (err, res) => {
+        if (err) {
+          return super.error(reply)(err);
+        }
+
+        this._business.create({
+          name: data.name,
+          tags: data.tags,
+          fileid: res.id,
+          user: data.usuario,
+          child: data.crianca
+        })
+          .then(this.buildResponse())
+          .then((r) => reply.success(r, options).code(HTTPStatus.CREATED))
+          .catch((err) => {
+
+            drive.files.delete({
+              fileId: res.id
+            }, (e, r, b) => {
+              if (!e && b.statusCode == 204) {
+                return super.error(reply)(err);
+              }
+
+              return super.error(reply)({ errorCode: '20092', parameters: res.id });
+            });
+          });
+      });
     } else {
       return super.error(reply)({ errorCode: '20090', parameters: 'file' });
     }
@@ -115,28 +133,47 @@ export default class DocsController extends BaseController {
       params: _.cloneDeep(request.params)
     };
 
-    return this._business.byId(options)
-      .then((qr) => {
-        const data = qr.dataValues;
+    let getFile = (d, data) => {
+      return new Promise((resolve, reject) => {
+        d.files.get({
+          fileId: data.fileid,
+          alt: 'media'
+        }, {
+          encoding: null
+        }, (err, res, body) => {
+          if (!err) {
+            resolve({ res, body });
+          } else {
+            reject({ errorCode: '20091', parameters: err });
+          }
+        });
+      });
+    };
 
-        gapi()
-          .then((auth) => {
-            const drive = google.drive({ version: 'v2', auth: auth });
+    let readFile = async function (business, options, cb) {
+      try {
+        const auth = await gapi();
+        const drive = google.drive({ version: 'v2', auth: auth });
 
-            drive.files.get({
-              fileId: data.fileid,
-              alt: 'media'
-            }, {
-              encoding: null
-            }, (err, res, body) => {
-              return reply(res)
-                .type(body.headers['content-type'])
-                .encoding('binary')
-                .code(HTTPStatus.OK)
-            })
-          });
-      })
-      .catch(super.error(reply));
+        let data = await business.byId(options);
+        let file = await getFile(drive, data.dataValues);
+
+        cb(null, file);
+      } catch (err) {
+        cb(err);
+      }
+    };
+
+    readFile(this._business, options, (err, result) => {
+      if (!err) {
+        return reply(result.res)
+          .type(result.body.headers['content-type'])
+          .encoding('binary')
+          .code(HTTPStatus.OK)
+      } else {
+        return super.error(reply)(err);
+      }
+    });
   }
 
   update (request, reply) {
