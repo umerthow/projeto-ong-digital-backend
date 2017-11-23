@@ -133,13 +133,55 @@ export default class DocsController extends BaseController {
       params: _.cloneDeep(request.params)
     };
 
+    let getFile = (d, data) => {
+      return new Promise((resolve, reject) => {
+        d.files.get({
+          fileId: data.fileid,
+          alt: 'media'
+        }, {
+          encoding: null
+        }, (err, res, body) => {
+          if (!err) {
+            resolve({ res, body });
+          } else {
+            reject({ errorCode: '20091', parameters: err });
+          }
+        });
+      });
+    };
+
+    let readFile = async function (business, options, cb) {
+      try {
+        const auth = await gapi();
+        const drive = google.drive({ version: 'v2', auth: auth });
+
+        let data = await business.byId(options);
+        let file = await getFile(drive, data.dataValues);
+
+        cb(null, file);
+      } catch (err) {
+        cb(err);
+      }
+    };
+
+    readFile(this._business, options, (err, result) => {
+      if (!err) {
+        return reply(result.res)
+          .type(result.body.headers['content-type'])
+          .encoding('binary')
+          .code(HTTPStatus.OK)
+      } else {
+        return super.error(reply)(err);
+      }
+    });
+
+    /*
     return this._business.byId(options)
       .then((qr) => {
         const data = qr.dataValues;
 
         gapi()
           .then((auth) => {
-            const drive = google.drive({ version: 'v2', auth: auth });
 
             drive.files.get({
               fileId: data.fileid,
@@ -150,11 +192,12 @@ export default class DocsController extends BaseController {
               return reply(res)
                 .type(body.headers['content-type'])
                 .encoding('binary')
-                .code(HTTPStatus.OK)
-            })
+                .code(HTTPStatus.OK);
+            });
           });
       })
       .catch(super.error(reply));
+      */
   }
 
   update (request, reply) {
