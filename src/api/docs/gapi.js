@@ -12,11 +12,9 @@ export function gapi() {
   return new Promise((resolve, reject) => {
     fs.readFile('client_secret.json', function processClientSecrets(err, content) {
       if (err) {
-        console.log('Error loading client secret file: ' + err);
-        reject(err);
+        reject({ errorCode: '20091', parameters: err });
       }
-      // Authorize a client with the loaded credentials, then call the
-      // Drive API.
+      // Authorize a client with the loaded credentials, then call the Drive API
       authorize(JSON.parse(content), resolve);
     });
   });
@@ -96,30 +94,3 @@ export function storeToken(token) {
   console.log('Token stored to ' + TOKEN_PATH);
 }
 
-/**
- * Lists the names and IDs of up to 10 files.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-export function listFiles(auth) {
-  var service = google.drive('v2');
-  service.files.list({
-    auth: auth,
-    maxResults: 10,
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    var files = response.items;
-    if (files.length == 0) {
-      console.log('No files found.');
-    } else {
-      console.log('Files:');
-      for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        console.log('%s (%s)', file.title, file.id);
-      }
-    }
-  });
-}
